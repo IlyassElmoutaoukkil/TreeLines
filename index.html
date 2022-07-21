@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        html,body{
+            height: 100%;
+            width:100%;
+            padding:0px;
+            margin:0px;
+        }
+
+    </style>
+        <canvas id="canvas" width="" height="" ></canvas>
+</body>
+<script>
+    var canvas = document.getElementById('canvas')
+    var ctx = canvas.getContext('2d') 
+    const ratio = Math.ceil(window.devicePixelRatio);
+    width = window.innerWidth
+    height = window.innerHeight
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+
+
+    var widthCenter = canvas.width/2
+    branchHeight = 20
+
+    lineStork = 2
+    lineHeight = 10
+    angle = 10
+
+    ctx.beginPath();
+    ctx.moveTo(widthCenter, 0);
+    ctx.lineTo(widthCenter, branchHeight);
+    ctx.stroke();
+
+    Stages = 20
+
+    lastBranchEnd_point = [widthCenter,branchHeight]
+    for(var s=0;s<Stages;s++){
+        ctx.beginPath();
+
+        toRight_f = lastBranchEnd_point[1]+50
+        toLeft_f = lastBranchEnd_point[0]+40
+        toLeft_s = lastBranchEnd_point[0]-40
+
+        ctx.moveTo(lastBranchEnd_point[0], lastBranchEnd_point[1]);
+        ctx.lineTo(toLeft_f, toRight_f);
+
+        ctx.moveTo(lastBranchEnd_point[0], lastBranchEnd_point[1]);
+        ctx.lineTo(toLeft_s, toRight_f);
+        ctx.stroke(); 
+
+        lastBranchEnd_point[0] = toRight_f 
+        lastBranchEnd_point[1] = toLeft_f 
+    }
+        
+        
+    
+    
+
+    
+    
+</script>
+</html>
