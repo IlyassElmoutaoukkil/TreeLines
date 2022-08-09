@@ -31,34 +31,80 @@
     var widthCenter = canvas.width/2
     branchHeight = 20
 
+    branchLong =100
+    branchLoss = 0.7
+
     lineStork = 2
     lineHeight = 10
     angle = 10
-
+    branchThikness = 10
+    branchThikness_Loss = 2
     ctx.beginPath();
     ctx.moveTo(widthCenter, 0);
+    ctx.lineWidth = branchThikness
     ctx.lineTo(widthCenter, branchHeight);
     ctx.stroke();
 
-    Stages = 20
+    Stages = 9
+    Start = true
 
-    lastBranchEnd_point = [widthCenter,branchHeight]
+    lastBorns = [[widthCenter,branchHeight]]
+    
+
+    angleOfGeneration = 1.5
+
+
+
     for(var s=0;s<Stages;s++){
         ctx.beginPath();
 
-        toRight_f = lastBranchEnd_point[1]+50
-        toLeft_f = lastBranchEnd_point[0]+40
-        toLeft_s = lastBranchEnd_point[0]-40
+        
 
-        ctx.moveTo(lastBranchEnd_point[0], lastBranchEnd_point[1]);
-        ctx.lineTo(toLeft_f, toRight_f);
+        allHeads = []
+        formedInfos = []
+        for (let b = 0; b < lastBorns.length; b++) {
+            oneBorn = lastBorns[b]
+            rightHead = [oneBorn[0]+branchLong,(oneBorn[1]+branchLong)/0.5]
+            leftHead = [oneBorn[0]-branchLong,(oneBorn[1]+branchLong)]
 
-        ctx.moveTo(lastBranchEnd_point[0], lastBranchEnd_point[1]);
-        ctx.lineTo(toLeft_s, toRight_f);
-        ctx.stroke(); 
+            allHeads.push(rightHead)
+            allHeads.push(leftHead)
+            formedInfos_o={}
+            formedInfos_o.born = oneBorn
+            formedInfos_o.heads = [rightHead,leftHead]
 
-        lastBranchEnd_point[0] = toRight_f 
-        lastBranchEnd_point[1] = toLeft_f 
+            formedInfos.push(formedInfos_o)
+        }
+
+
+        console.clear()
+        // console.log('data of stage : ',s,' :', formedInfos)
+
+        for (let i = 0; i < formedInfos.length; i++) {
+            var origin = formedInfos[i].born
+            var heads = formedInfos[i].heads
+
+            
+
+            for (let h = 0; h < heads.length; h++) {
+                const head = heads[h];
+
+                ctx.beginPath();
+                ctx.moveTo(origin[0], origin[1]);
+                ctx.lineWidth = branchThikness
+                ctx.lineTo(head[0], head[1]);
+                
+                ctx.stroke();
+            }
+        }
+
+        lastBorns = allHeads
+        // console.log('allHeads',allHeads)
+        
+
+        
+        branchLong = branchLong*branchLoss
+        branchThikness = branchThikness - branchThikness_Loss
     }
         
         
